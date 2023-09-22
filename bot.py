@@ -211,21 +211,6 @@ def spam_attack(user_id, phone_number, duration, message):
         del active_spams[user_id]  # Xóa dữ liệu lệnh spam
         bot.reply_to(message, f'📢 Tấn Công Đã Kết Thúc 📢\n+ Số Điện Thoại 📱: [ {phone_number} ]\n+ Thời Gian Tấn Công ⏰: [ {duration} giây ]\n+ Chủ sở hữu 👑: @HeinGlobal\n 😜 LOL 😜')
 
-@bot.message_handler(commands=['ping'])
-def ping(message):
-    if len(message.text.split()) == 1:
-        bot.reply_to(message, 'Vui lòng nhập địa chỉ website. Ví dụ: /ping https://example.com')
-        return
-
-    url = message.text.split()[1]
-    
-    try:
-        response = requests.get(url)
-        status_code = response.status_code
-        bot.reply_to(message, f'Website: {url}\n Status: {status_code}')
-    except requests.exceptions.RequestException as e:
-        bot.reply_to(message, f'Error: {e}')
-
 @bot.message_handler(commands=['methods'])
 def methods(message):
     help_text = '''
@@ -404,5 +389,20 @@ def show_uptime(message):
 @bot.message_handler(func=lambda message: message.text.startswith('/'))
 def invalid_command(message):
     bot.reply_to(message, 'Lệnh không hợp lệ. Vui lòng sử dụng lệnh /help để xem danh sách lệnh.')
+
+@bot.message_handler(commands=['ping'])
+def ping(message):
+    if len(message.text.split()) == 1:
+        bot.reply_to(message, 'Vui lòng nhập địa chỉ website. Ví dụ: /ping https://example.com')
+        return
+
+    url = message.text.split()[1]
+    
+    try:
+        response = requests.get(url)
+        status_code = response.status_code
+        bot.reply_to(message, f'Website: {url}\n Status: {status_code}')
+    except requests.exceptions.RequestException as e:
+        bot.reply_to(message, f'Error: {e}')
 
 bot.infinity_polling(timeout=60, long_polling_timeout = 1)
