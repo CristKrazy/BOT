@@ -139,19 +139,13 @@ def help(message):
 - /getkey : Để lấy key
 - /key + [Key] : Kích Hoạt Key
 2️⃣ Lệnh Spam 
-- /sms + [Số Điện Thoại] : Spam VIP
+- /spam + [Số Điện Thoại] : Spam + Call
 3️⃣ Lệnh DDoS ( Tấn Công Website )
 - /attack + [methods] + [host]
 - /methods : Để Xem Methods
-- /check + [host] : Kiểm Tra AntiDDoS
-- /proxy : Check Số Lượng Proxy
 4️⃣ Lệnh Có Ích ^^
-- /code + [host] : Lấy Source Code Website
-- /getproxy : Proxy Sẽ Tự Động Update Sau 10 Phút
-[ Proxy Live 95% Die 5 % ]
 - /time : Số Thời Gian Bot Hoạt Động
 5️⃣ Info Admin
-- /muakey : Để Mua Key VIP
 - /admin : Info Admin
 - /on : On Bot
 - /off : Off Bot
@@ -216,7 +210,22 @@ def spam_attack(user_id, phone_number, duration, message):
     if user_id in active_spams:
         del active_spams[user_id]  # Xóa dữ liệu lệnh spam
         bot.reply_to(message, f'📢 Tấn Công Đã Kết Thúc 📢\n+ Số Điện Thoại 📱: [ {phone_number} ]\n+ Thời Gian Tấn Công ⏰: [ {duration} giây ]\n+ Chủ sở hữu 👑: @HeinGlobal\n 😜 LOL 😜')
-        
+
+@bot.message_handler(commands=['ping'])
+def ping(message):
+    if len(message.text.split()) == 1:
+        bot.reply_to(message, 'Vui lòng nhập địa chỉ website. Ví dụ: /ping https://example.com')
+        return
+
+    url = message.text.split()[1]
+    
+    try:
+        response = requests.get(url)
+        status_code = response.status_code
+        bot.reply_to(message, f'Website: {url}\n Status: {status_code}')
+    except requests.exceptions.RequestException as e:
+        bot.reply_to(message, f'Error: {e}')
+
 @bot.message_handler(commands=['methods'])
 def methods(message):
     help_text = '''
