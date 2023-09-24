@@ -23,8 +23,6 @@ allowed_group_id = -4008752928
 allowed_users = []
 processes = []
 ADMIN_ID = 5366462178
-proxy_update_count = 0
-last_proxy_update_time = time.time()
 key_dict = {}
 
 connection = sqlite3.connect('user_data.db')
@@ -80,6 +78,11 @@ def add_user(message):
 
 load_users_from_database()
 
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    username = message.from_user.username
+    bot.reply_to(message, f"🚀Xin chào @{username}\n Hãy chat lệnh\n/help để biết cách sử dụng lệnh nhé.🚀")
+
 @bot.message_handler(commands=['getkey'])
 def laykey(message):
     bot.reply_to(message, text='Vui Lòng Chờ...')
@@ -94,7 +97,7 @@ def laykey(message):
     print(key)
     
     try:
-        response = requests.get(f'https://web1s.com/api?token=02111506-4571-4103-89ba-d66203d759c0&url=https://anhgit.site/key?key={key}')
+        response = requests.get(f'https://web1s.com/api?token=2e632629-d216-45e7-9657-53dbe55479f9&url=https://anhgit.site/key?key={key}')
         response_json = response.json()
         if 'shortenedUrl' in response_json:
             url_key = response_json['shortenedUrl']
@@ -130,8 +133,7 @@ def key(message):
     else:
         bot.reply_to(message, 'Key Sai Hoặc Hết Hạn\nKhông Sử Dụng Key Của Người Khác!')
 
-
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['help'])
 def help(message):
     help_text = '''
 📌 Tất Cả Các Lệnh:
@@ -147,7 +149,7 @@ def help(message):
 - /time : Số Thời Gian Bot Hoạt Động
 5️⃣ Info Admin
 - /admin : Info Admin
-- /on : On Bot
+- /on : Start Bot
 - /off : Off Bot
 '''
     bot.reply_to(message, help_text)
@@ -324,7 +326,7 @@ def attack_command(message):
 
         attack_thread = threading.Thread(target=run_attack, args=(command, duration, message))
         attack_thread.start()
-        bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Successful Attack!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Host: {host} \n┣➤ Methods: {method} \n┣➤ Time: {duration} Giây\n┣➤ Check: https://check-host.net/check-http?host={host} \n┗━━━━━━━━━━━━━━➤')
+        bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Successful Attack!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Host: {host} \n┣➤ Methods: {method} \n┣➤ Time: {duration} Giây\n┣➤ Check Host: https://check-host.net/check-http?host={host} \n┣➤ Check TCP:  https://check-host.net/check-tcp?host={host}\n┗━━━━━━━━━━━━━━➤')
     else:
         bot.reply_to(message, 'Phương thức tấn công không hợp lệ. Sử dụng lệnh /methods để xem phương thức tấn công')
 
@@ -389,20 +391,5 @@ def show_uptime(message):
 @bot.message_handler(func=lambda message: message.text.startswith('/'))
 def invalid_command(message):
     bot.reply_to(message, 'Lệnh không hợp lệ. Vui lòng sử dụng lệnh /help để xem danh sách lệnh.')
-
-@bot.message_handler(commands=['ping'])
-def ping(message):
-    if len(message.text.split()) == 1:
-        bot.reply_to(message, 'Vui lòng nhập địa chỉ website. Ví dụ: /ping https://example.com')
-        return
-
-    url = message.text.split()[1]
-    
-    try:
-        response = requests.get(url)
-        status_code = response.status_code
-        bot.reply_to(message, f'Website: {url}\n Status: {status_code}')
-    except requests.exceptions.RequestException as e:
-        bot.reply_to(message, f'Error: {e}')
 
 bot.infinity_polling(timeout=60, long_polling_timeout = 1)
