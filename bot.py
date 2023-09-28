@@ -14,7 +14,7 @@ import io
 import re
 import threading
 
-bot_token = '6100654723:AAGw_3bECo0sBdnYf5XCmfY_E6ac0Vt9iAk'
+bot_token = '6100654723:AAEnplbnamn60BjZh7FSj0pKRE2X3HYfq-Y'
 
 bot = telebot.TeleBot(bot_token)
 
